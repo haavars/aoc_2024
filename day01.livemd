@@ -19,15 +19,24 @@ Mix.install([
 defmodule Day01 do
   def parse(input) do
     input
-    |> String.split()
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+
+  def part1({left, right}) do
+    Enum.zip(Enum.sort(left), Enum.sort(right))
+    |> Enum.map(fn {a, b} -> abs(a - b) end)
+    |> Enum.sum()
   end
 end
 
-
-puzzle_input
 ```
 
 ```elixir
-Day01.parse(puzzle_input)
+Day01.parse(puzzle_input) |> Day01.part1()
 
 ```
