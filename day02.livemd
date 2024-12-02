@@ -16,7 +16,7 @@ Mix.install([
 ```
 
 ```elixir
-defmodule Day01 do
+defmodule Day02 do
   def parse(input) do
     input
     |> String.split("\n", trim: true)
@@ -26,19 +26,35 @@ defmodule Day01 do
     end)
   end
 
-  def part1() do
+  def part1(input) do
+    input
+    |> Enum.count(&safe?/1)
   end
 
   def part2() do
   end
+
+  defp safe?([a, a | _]), do: false
+
+  defp safe?([a, b | rest]) do
+    multiplier = if b - a > 0, do: 1, else: -1
+    check_trend_consistency?([a, b | rest], multiplier)
+  end
+
+  defp check_trend_consistency?([_], _), do: true
+
+  defp check_trend_consistency?([a, b | rest], multiplier) do
+    ((b - a) * multiplier) in 1..3 && check_trend_consistency?([b | rest], multiplier)
+  end
 end
-
 ```
 
 ```elixir
-Day01.parse(puzzle_input)
+Day02.parse(puzzle_input) |> Day02.part1()
 ```
 
 ```elixir
-Day01.parse(puzzle_input) |> Day01.part2()
+Day02.parse(puzzle_input) |> Day02.part2()
 ```
+
+<!-- livebook:{"offset":1275,"stamp":{"token":"XCP.I2EP30AGmqcvOAygKez8iN2zeDpD80DQNz8AZ05lFMfwgK1KJdZ8743F5JLacybzy3AO8eoyjWH6ktHz6vtVVIRUsuNHKgRLZU_sukhWmqI1n_40OQg1WnI_","version":2}} -->
