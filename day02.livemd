@@ -27,11 +27,11 @@ defmodule Day02 do
   end
 
   def part1(input) do
-    input
-    |> Enum.count(&safe?/1)
+    Enum.count(input, &safe?/1)
   end
 
-  def part2() do
+  def part2(input) do
+    Enum.count(input, &safe_variants?/1)
   end
 
   defp safe?([a, a | _]), do: false
@@ -46,6 +46,14 @@ defmodule Day02 do
   defp check_trend_consistency?([a, b | rest], multiplier) do
     ((b - a) * multiplier) in 1..3 && check_trend_consistency?([b | rest], multiplier)
   end
+
+  defp safe_variants?(list) do
+    subsets =
+      0..length(list)
+      |> Enum.map(&List.delete_at(list, &1))
+
+    safe?(list) || Enum.any?(subsets, &safe?/1)
+  end
 end
 ```
 
@@ -57,4 +65,4 @@ Day02.parse(puzzle_input) |> Day02.part1()
 Day02.parse(puzzle_input) |> Day02.part2()
 ```
 
-<!-- livebook:{"offset":1275,"stamp":{"token":"XCP.I2EP30AGmqcvOAygKez8iN2zeDpD80DQNz8AZ05lFMfwgK1KJdZ8743F5JLacybzy3AO8eoyjWH6ktHz6vtVVIRUsuNHKgRLZU_sukhWmqI1n_40OQg1WnI_","version":2}} -->
+<!-- livebook:{"offset":1483,"stamp":{"token":"XCP.RaC8Br7Uijy0y4UusrTAJYUX5gYy55HztEyO9UzAWg7egZMypqr63JRS9QVW_-4o259xf9seWfijFrRet-Ub_CYlmhEhNMJloo9l2BWLCnAyJFQwnNxBPi6I","version":2}} -->
